@@ -404,10 +404,10 @@ var outputFallbacks = function() {
 		var original = ab.artboardRect;
 
 		var newRect = [
-			original[0] - 20,
-			original[1] + 20,
-			original[2] + 20,
-			original[3] - 20
+			original[0],
+			original[1],
+			original[2],
+			original[3]
 		]
 
 		if (addPadding === true) {
@@ -421,12 +421,11 @@ var outputFallbacks = function() {
 	for (var i = 0; i < artboards.length; i++) {
 		var abname = artboards[i].name
 
-		if (abname === 'tablet:574') {
+		if (abname === 'tablet:599') {
 			artboards.setActiveArtboardIndex(i)
-			process(artboards[i], fallbackPath, false)
-
+			process(artboards[i], fallbackPath, true)
 		}
-		if (abname === 'mobile-large:336') {
+		if (abname === 'mobile-large:329') {
 			artboards.setActiveArtboardIndex(i)
 			process(artboards[i], applePath, true)
 		}
@@ -655,27 +654,27 @@ if (scriptEnvironment=="nyt") {
 	// Make a copy of the spreadsheet for yourself.
 	// Modify the settings to taste.
 var fonts = [
-	{ "aifont": "ArialMT", "family": "arial,helvetica,sans-serif", "weight": "", "style": "" },
-	{ "aifont": "Arial-BoldMT", "family": "arial,helvetica,sans-serif", "weight": "bold", "style": "" },
-	{ "aifont": "Arial-ItalicMT", "family": "arial,helvetica,sans-serif", "weight": "", "style": "italic" },
-	{ "aifont": "Arial-BoldItalicMT", "family": "arial,helvetica,sans-serif", "weight": "bold", "style": "italic" },
-	{ "aifont": "Georgia", "family": "georgia,'times new roman',times,serif", "weight": "", "style": "" },
-	{ "aifont": "Georgia-Bold", "family": "georgia,'times new roman',times,serif", "weight": "bold", "style": "" },
-	{ "aifont": "Georgia-Italic", "family": "georgia,'times new roman',times,serif", "weight": "", "style": "italic" },
-	{ "aifont": "Georgia-BoldItalic", "family": "georgia,'times new roman',times,serif", "weight": "bold", "style": "italic" },
+	// Original Axios fonts, for posterity
 	{ "aifont": "Gordita-Regular", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "", "style": "" },
-	{ "aifont": "Gordita-Italic", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "", "style": "italic" },
+	{ "aifont": "GorditaRegular-Italic", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "", "style": "italic" },
 	{ "aifont": "Gordita-Medium", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "500", "style": "" },
 	{ "aifont": "GorditaMedium-Italic", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "500", "style": "italic" },
 	{ "aifont": "Gordita-Bold", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "600", "style": "" },
 	{ "aifont": "Gordita-Bold-Italic", "family": "'gordita',helvetica,helvetica-neue,arial,sans-serif", "weight": "600", "style": "italic" },
-	{ "aifont": "AtizaText-Regular", "family": "atizatext-regular,georgia,serif", "weight": "", "style": "" },
-	{ "aifont": "AtizaText-RegularItalic", "family": "atizatext-regularitalic,georgia,serif", "weight": "", "style": "italic" },
-	{ "aifont": "AtizaText-Bold", "family": "atizatext-bold,georgia,serif", "weight": "bold", "style": "" },
 	{ "aifont": "LiberationMono", "family": "liberationmono,monospace", "weight": "", "style": "" },
 	{ "aifont": "LiberationMono-Italic", "family": "liberation_monoitalic,monospace", "weight": "", "style": "italic" },
 	{ "aifont": "LiberationMono-Bold", "family": "liberation_monobold,monospace", "weight": "", "style": "" },
-	{ "aifont": "LiberationMono-BoldItalic", "family": "liberation_monobolditalic,monospace", "weight": "", "style": "italic" }
+	{ "aifont": "LiberationMono-BoldItalic", "family": "liberation_monobolditalic,monospace", "weight": "", "style": "italic" },
+
+	// Serif
+	{ "aifont": "AtizaText-Regular", "family": "atizatext-regular,georgia,serif", "weight": "", "style": "" },
+	{ "aifont": "AtizaText-RegularItalic", "family": "atizatext-regularitalic,georgia,serif", "weight": "", "style": "italic" },
+	{ "aifont": "AtizaText-Bold", "family": "atizatext-bold,georgia,serif", "weight": "bold", "style": "" },
+
+	// Sans
+	{ "aifont": "NBInternationalPro-Reg", "family": "'NB International Pro Regular','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif", "weight": "400", "style": "" },
+	{ "aifont": "NBInternationalPro-Bold", "family": "'NB International Pro Bold','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif", "weight": "500", "style": "" },
+	{ "aifont": "NBInternationalPro-Mono", "family": "'NB International Pro Mono','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif", "weight": "", "style": "" }
 ];
 
 var caps = [
@@ -720,7 +719,7 @@ var currMin       = zeroPad(d.getMinutes(),2);
 var dateTimeStamp = currYear + "-" + currMonth + "-" + currDate + " - " + currHour + ":" + currMin;
 
 // user inputs, settings, etc
-var defaultFamily       = "gordita,helvetica-neue,helvetica,arial,sans-serif";
+var defaultFamily       = "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif";
 var defaultWeight       = "400";
 var defaultStyle        = "";
 var defaultSize         = 13;
