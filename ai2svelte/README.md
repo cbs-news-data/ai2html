@@ -28,6 +28,24 @@ A version of [ai2html](https://github.com/newsdev/ai2html) designed specifically
 <WorldMap />
 ```
 
+If your Svelte project is not already set up to use [`svelte-preprocess-import-assets`](https://github.com/bluwy/svelte-preprocess-import-assets), install it and add it to your project's `svelte.config.js` file.
+
+```js
+import importAssets from "svelte-preprocess-import-assets";
+
+const config = {
+  kit: {
+    // Kit options here
+  },
+  preprocess: [
+    preprocess({
+      // Svelte preprocess options here
+    }),
+    importAssets(),
+  ],
+};
+```
+
 ## Modifying settings
 
 If you need to modify any of the default settings, you can do so by creating an `ai2html-config.json` file in your project folder or by modifying the `ai2html-settings` block in the `.ai` file. See [ai2html.org](http://ai2html.org/#settings) for details.
