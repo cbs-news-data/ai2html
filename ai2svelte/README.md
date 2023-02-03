@@ -4,7 +4,7 @@ A version of [ai2html](https://github.com/newsdev/ai2html) designed specifically
 
 ## How to use
 
-1. Make sure you have both `ai2svelte.js` and `ai2html-config.json` in your `Applications/[Adobe Illustrator]/Presets/en_US/Scripts` directory
+1. Make sure you have both `ai2svelte.js` in your `Applications/[Adobe Illustrator]/Presets/en_US/Scripts` directory
 2. Copy the [ai2svelte](https://drive.google.com/drive/folders/1ya6nyGzHvoGcgkbvmyplePwqdBGuSCYZ) template from the team Drive folder to your project.
 3. Rename the folder and the `yyyy-mm-dd-slug.ai` folder. The name of the `.ai` file will be the name of the Svelte component, so we recommend using title-case naming (eg. `WorldMap.ai`).
 4. Create your graphics using the artboards provided. Feel free to create more as needed.
