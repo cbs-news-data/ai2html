@@ -74,7 +74,7 @@ const config = {
 
 If you need to modify any of the default settings, you can do so by creating an `ai2html-config.json` file in your project folder or by modifying the `ai2html-settings` block in the `.ai` file. See [ai2html.org](http://ai2html.org/#settings) for details.
 
-### Custom fonts
+## Custom fonts
 
 To add custom fonts to a project, we recommend using an `ai2html-config.json` file. To use a custom font, add the font information to the `fonts` array, like this:
 
@@ -100,7 +100,7 @@ In order to add fonts to the array, you'll need to know the Illustrator name for
 
 With your `.ai` file open in Illustrator, go to `File --> Scripts --> aifontname`. This will generate a popup in AI of the fonts used. These are the names you want to use in the `fonts` array.
 
-#### Fonts from Adobe Fonts/Google Fonts
+### Fonts from Adobe Fonts/Google Fonts
 
 If you're loading in fonts from Adobe Fonts/Typekit/Google Fonts, you must also:
 
