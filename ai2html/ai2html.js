@@ -66,23 +66,24 @@ function main() {
     project_name: "", // Defaults to the name of the AI file
     project_type: "",
     html_output_path: "/output/",
-    html_output_extension: ".svelte",
-    image_output_path: "./images/",
+    html_output_extension: ".html",
+    image_output_path: "images/",
     image_source_path: null,
     image_alt_text: "",
     cache_bust_token: null, // Append a token to the url of image urls: ?v=<cache_bust_token>
     create_config_file: false,
     config_file_path: "",
-    local_preview_template: "",
+    local_preview_template: "template.html",
+    local_svelte_template: "template.svelte",
     png_transparent: false,
-    png_number_of_colors: 128, // Number of colors in 8-bit PNG image (1-256)
-    jpg_quality: 60,
+    png_number_of_colors: 256, // Number of colors in 8-bit PNG image (1-256)
+    jpg_quality: 70,
     center_html_output: true,
     use_2x_images_if_possible: true,
     use_lazy_loader: false,
     include_resizer_classes: false, // Triggers an error (feature was removed)
     include_resizer_widths: true,
-    include_resizer_script: false,
+    include_resizer_script: true,
     inline_svg: false, // Embed background image SVG in HTML instead of loading a file
     svg_id_prefix: "", // Prefix SVG ids with a string to disambiguate from other ids on the page
     svg_embed_images: false,
@@ -98,6 +99,11 @@ function main() {
     notes: "",
     sources: "",
     credit: "",
+    // Axios
+    generate_fallbacks: true,
+    hed: "",
+    dek: "",
+    alt: "",
     // removed most NYT-specific settings from default settings, including:
     //   page_template, publish_system, environment, show_in_compatible_apps,
     //   display_for_promotion_only, constrain_width_to_text_column,
@@ -209,21 +215,21 @@ function main() {
       {
         aifont: "NBInternationalPro-Lig",
         family:
-          "'NB International Pro Regular','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
         weight: "300",
         style: "",
       },
       {
         aifont: "NBInternationalPro-Reg",
         family:
-          "'NB International Pro Regular','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
         weight: "400",
         style: "",
       },
       {
         aifont: "NBInternationalPro-Bold",
         family:
-          "'NB International Pro Bold','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
         weight: "500",
         style: "",
       },
@@ -1086,8 +1092,17 @@ function main() {
       createSettingsBlock(docSettings);
     }
 
-    //ai2svelte
+    // Axios
     docSettings.html_output_path = "/" + docName + "/";
+
+    if (!docSettings.project_name) {
+      docSettings.project_name = docName;
+    }
+
+    // ai2svelte
+    if (docSettings.project_type == "svelte") {
+      docSettings.include_resizer_script = false;
+    }
 
     // render the document
     render(docSettings, textBlockData.code);
@@ -1239,7 +1254,9 @@ function main() {
         "\t</div>\r";
 
       // ai2svelte
-      artboardContent.html += "{/if}";
+      if (settings.project_type == "svelte") {
+        artboardContent.html += "{/if}";
+      }
 
       var abStyles = textData.styles;
       if (specialData && specialData.video) {
@@ -1288,6 +1305,11 @@ function main() {
 
     if (settings.cache_bust_token) {
       incrementCacheBustToken(settings);
+    }
+
+    // Axios
+    if (isTrue(settings.generate_fallbacks)) {
+      generateFallbacks(settings);
     }
   } // end render()
 
@@ -1959,7 +1981,7 @@ function main() {
   //   formatted text blocks
   function initSpecialTextBlocks() {
     var rxp = /^ai2html-(css|js|html|settings|text|html-before|html-after)\s*$/;
-    var settings = null;
+    var settings = {}; // Axios
     var code = {};
     forEach(doc.textFrames, function (thisFrame) {
       // var contents = thisFrame.contents; // caused MRAP error in AI 2017
@@ -1969,6 +1991,21 @@ function main() {
         match = rxp.exec(thisFrame.lines[0].contents);
         type = match ? match[1] : null;
       }
+
+      // Axios - Taken from fivethirtyeight - https://github.com/fivethirtyeight/ai2html/blob/master/ai2html.js#L1364-L1373
+      // ~~ if the text block has a "name" in the Illustrator file that starts with a # (like an id in html/css),
+      // ~~ then also add that "name" to the settings block, and pass it as if it was defined in an ai2html-text block
+      // ~~ this allows us to pull the hed, dek, note and source from the "real" mobile artboard into the html template
+      // ~~ do not add it to the settings if it already exists (read: if it was also passed thru the ai2html-text block)
+      if (
+        thisFrame.name &&
+        /^#/.test(thisFrame.name) &&
+        !settings[thisFrame.name.replace("#", "")]
+      ) {
+        settings[thisFrame.name.replace("#", "")] = thisFrame.contents;
+        return;
+      }
+
       if (!type) return; // not a special block
       if (objectIsHidden(thisFrame)) {
         if (type == "settings") {
@@ -5236,39 +5273,42 @@ function main() {
     var inlineSpacerStyle = "";
     var html = "";
 
-    // // Set size of graphic using inline CSS
-    // if (widthRange[0] == widthRange[1]) {
-    //   // fixed width
-    //   // inlineSpacerStyle += "width:" + abBox.width + "px; height:" + abBox.height + "px;";
-    //   inlineStyle +=
-    //     "width:" + abBox.width + "px; height:" + abBox.height + "px;";
-    // } else {
-
-    // Set height of dynamic artboards using vertical padding as a %, to preserve aspect ratio.
-    inlineSpacerStyle =
-      "padding: 0 0 " + formatCssPct(abBox.height, abBox.width) + " 0;";
-
     // ai2svelte
-    if (visibleRange[1] < Infinity) {
-      html +=
-        "{#if width && ( width >= " +
-        visibleRange[0] +
-        " && width <" +
-        (Number(visibleRange[1]) + 1) +
-        ")}";
-    } else {
-      html += "{#if width && (width >= " + visibleRange[0] + ")}";
-    }
+    if (settings.project_type == "svelte") {
+      inlineSpacerStyle =
+        "padding: 0 0 " + formatCssPct(abBox.height, abBox.width) + " 0;";
 
-    // if (widthRange[0] > 0) {
-    //   inlineStyle += "min-width: " + widthRange[0] + "px;";
-    // }
-    // if (widthRange[1] < Infinity) {
-    //   inlineStyle += "max-width: " + widthRange[1] + "px;";
-    //   inlineStyle +=
-    //     "max-height: " + Math.round(widthRange[1] / aspectRatio) + "px";
-    // }
-    // }
+      if (visibleRange[1] < Infinity) {
+        html +=
+          "{#if width && ( width >= " +
+          visibleRange[0] +
+          " && width <" +
+          (Number(visibleRange[1]) + 1) +
+          ")}";
+      } else {
+        html += "{#if width && (width >= " + visibleRange[0] + ")}";
+      }
+    } else {
+      // Set size of graphic using inline CSS
+      if (widthRange[0] == widthRange[1]) {
+        // fixed width
+        // inlineSpacerStyle += "width:" + abBox.width + "px; height:" + abBox.height + "px;";
+        inlineStyle +=
+          "width:" + abBox.width + "px; height:" + abBox.height + "px;";
+      } else {
+        // Set height of dynamic artboards using vertical padding as a %, to preserve aspect ratio.
+        inlineSpacerStyle =
+          "padding: 0 0 " + formatCssPct(abBox.height, abBox.width) + " 0;";
+        if (widthRange[0] > 0) {
+          inlineStyle += "min-width: " + widthRange[0] + "px;";
+        }
+        if (widthRange[1] < Infinity) {
+          inlineStyle += "max-width: " + widthRange[1] + "px;";
+          inlineStyle +=
+            "max-height: " + Math.round(widthRange[1] / aspectRatio) + "px";
+        }
+      }
+    }
 
     html +=
       '\t<div id="' +
@@ -5351,10 +5391,12 @@ function main() {
     css += blockEnd;
 
     // ai2svelte
-    // css += blockStart + "." + getSymbolClass() + " {";
-    // css += t3 + "position: absolute;";
-    // css += t3 + "box-sizing: border-box;";
-    // css += blockEnd;
+    if (settings.project_type != "svelte") {
+      css += blockStart + "." + getSymbolClass() + " {";
+      css += t3 + "position: absolute;";
+      css += t3 + "box-sizing: border-box;";
+      css += blockEnd;
+    }
 
     css +=
       blockStart + "." + nameSpace + "aiPointText p { white-space: nowrap; }\r";
@@ -5393,22 +5435,6 @@ function main() {
       lines.push(key + ": " + value);
     });
     return lines.join("\n");
-  }
-
-  // ai2svelte
-  // Sets the output necessary for the .svelte file
-  function outputSvelteJS(containerId, settings) {
-    var svelteJS = "<script>\r\t";
-
-    svelteJS += "\tlet width = null;\r";
-    // add prop for onmount function that defaults to noop
-    svelteJS += "import { onMount } from 'svelte';\n";
-    svelteJS += "export let onAiMounted = () => {};\r";
-    svelteJS += "onMount(() => {\r  onAiMounted();\r});\r";
-
-    svelteJS += "\r</script>\r";
-
-    return svelteJS;
   }
 
   function getResizerScript(containerId) {
@@ -5592,6 +5618,20 @@ function main() {
     saveTextFile(localPreviewDestination, localPreviewHtml);
   }
 
+  // Axios/ai2svelte: Write Svelte file
+  function outputSvelteComponent(
+    textForFile,
+    localPreviewDestination,
+    settings
+  ) {
+    var localPreviewTemplateText = readTextFile(
+      docPath + settings.local_svelte_template
+    );
+    settings.ai2htmlPartial = textForFile; // TODO: don't modify global settings this way
+    var localPreviewHtml = applyTemplate(localPreviewTemplateText, settings);
+    saveTextFile(localPreviewDestination, localPreviewHtml);
+  }
+
   function addCustomContent(content, customBlocks) {
     if (customBlocks.css) {
       content.css +=
@@ -5633,7 +5673,13 @@ function main() {
     var containerClasses = "ai2html";
 
     // ai2svelte
-    var svelteJS = outputSvelteJS(containerId, settings);
+    var bindWidth;
+    var styleMeta = 'media="screen,print"';
+
+    if (settings.project_type == "svelte") {
+      bindWidth = " bind:clientWidth={width}";
+      styleMeta = 'lang="scss"';
+    }
 
     progressBar.setTitle("Writing HTML output...");
 
@@ -5661,14 +5707,16 @@ function main() {
         "<!-- scoop: " + settings.scoop_slug_from_config_yml + " -->\r";
     }
 
+    // ai2svelte
     // HTML
-    // ai2svelte: Adds bind:clientWidth
     html =
       '<div id="' +
       containerId +
       '" class="' +
       containerClasses +
-      '" bind:clientWidth={width}>\r';
+      '"' +
+      bindWidth +
+      ">\r";
     if (linkSrc) {
       // optional link around content
       html +=
@@ -5680,26 +5728,29 @@ function main() {
     }
     html += "\r</div>\r";
 
-    // CSS
     // ai2svelte
+    // CSS
     css =
-      '<style lang="scss">\r' +
+      "<style " +
+      styleMeta +
+      ">\r" +
       generatePageCss(containerId, settings) +
       content.css +
       "\r</style>\r";
 
     // JS
-    // ai2svelte
-    js = svelteJS + content.js + responsiveJs;
+    js = content.js + responsiveJs;
 
+    // Axios: Reorder to put JS last
     textForFile =
       "\r" +
       commentBlock +
-      js +
+      "\r" +
+      css +
       "\r" +
       html +
       "\r" +
-      css +
+      js +
       "<!-- End ai2html" +
       " - " +
       getDateTimeStamp() +
@@ -5716,15 +5767,92 @@ function main() {
         htmlFileDestinationFolder + "index" + settings.html_output_extension;
     }
 
+    // ai2svelte
     // write file
-    saveTextFile(htmlFileDestination, textForFile);
-
-    // process local preview template if appropriate
-    if (settings.local_preview_template !== "") {
-      // TODO: may have missed a condition, need to compare with original version
+    if (settings.project_type == "svelte") {
       var previewFileDestination =
-        htmlFileDestinationFolder + pageName + ".preview.html";
+        htmlFileDestinationFolder + pageName + ".svelte";
+      outputSvelteComponent(textForFile, previewFileDestination, settings);
+    } else {
+      saveTextFile(htmlFileDestination, textForFile);
+    }
+
+    // ai2svelte
+    // process local preview template if appropriate
+    if (
+      settings.local_preview_template !== "" &&
+      settings.project_type != "svelte"
+    ) {
+      // TODO: may have missed a condition, need to compare with original version
+
+      // Axios
+      // var previewFileDestination =
+      //   htmlFileDestinationFolder + pageName + ".preview.html";
+      var previewFileDestination =
+        htmlFileDestinationFolder + pageName + ".html";
       outputLocalPreviewPage(textForFile, previewFileDestination, settings);
+    }
+  }
+
+  // Axios: Generate fallback images
+  function generateFallbacks(settings) {
+    var slug = docName;
+
+    var fallbacksDestinationFolder =
+      docPath + settings.html_output_path + "fallbacks/";
+    checkForOutputFolder(fallbacksDestinationFolder, "fallback_output_path");
+
+    var fallbackPath = new File(
+      fallbacksDestinationFolder + slug + "-fallback"
+    );
+    var applePath = new File(fallbacksDestinationFolder + slug + "-apple");
+    var socialPath = new File(fallbacksDestinationFolder + slug + "-social");
+    var instaPath = new File(fallbacksDestinationFolder + slug + "-insta");
+
+    var exportOptions = new ExportOptionsPNG24();
+    exportOptions.horizontalScale = 300;
+    exportOptions.verticalScale = 300;
+    exportOptions.artBoardClipping = true;
+    exportOptions.transparency = false;
+    var type = ExportType.PNG24;
+
+    $.writeln(fallbackPath, applePath);
+
+    var artboards = doc.artboards;
+
+    var process = function (ab, file, options) {
+      options = options || {};
+      var original = ab.artboardRect;
+
+      var newRect = [original[0], original[1], original[2], original[3]];
+
+      if (options.addPadding === true) {
+        ab.artboardRect = newRect;
+      }
+
+      doc.exportFile(file, type, exportOptions);
+      ab.artboardRect = original;
+    };
+
+    for (var i = 0; i < artboards.length; i++) {
+      var abname = artboards[i].name;
+
+      if (abname === "tablet:599") {
+        artboards.setActiveArtboardIndex(i);
+        process(artboards[i], fallbackPath, { addPadding: true });
+      }
+      if (abname === "mobile-large:329") {
+        artboards.setActiveArtboardIndex(i);
+        process(artboards[i], applePath, { addPadding: true });
+      }
+      if (abname === "-social") {
+        artboards.setActiveArtboardIndex(i);
+        process(artboards[i], socialPath);
+      }
+      if (abname === "-insta") {
+        artboards.setActiveArtboardIndex(i);
+        process(artboards[i], instaPath, { square: true });
+      }
     }
   }
 } // end main() function definition
