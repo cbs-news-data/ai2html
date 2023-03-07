@@ -1,3 +1,7 @@
+### v0.2.1
+
+- Update artboard names for generating fallbacks
+
 ### v0.2.0
 
 - Updated ai2html base script version to v0.116.0

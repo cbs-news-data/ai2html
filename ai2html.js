@@ -5837,19 +5837,19 @@ function main() {
     for (var i = 0; i < artboards.length; i++) {
       var abname = artboards[i].name;
 
-      if (abname === "tablet:599") {
+      if (abname.indexOf("tablet") !== -1) {
         artboards.setActiveArtboardIndex(i);
         process(artboards[i], fallbackPath, { addPadding: true });
       }
-      if (abname === "mobile-large:329") {
+      if (abname.indexOf("mobile-large") !== -1) {
         artboards.setActiveArtboardIndex(i);
         process(artboards[i], applePath, { addPadding: true });
       }
-      if (abname === "-social") {
+      if (abname.indexOf("-social") !== -1) {
         artboards.setActiveArtboardIndex(i);
         process(artboards[i], socialPath);
       }
-      if (abname === "-insta") {
+      if (abname.indexOf("-insta") !== -1) {
         artboards.setActiveArtboardIndex(i);
         process(artboards[i], instaPath, { square: true });
       }
