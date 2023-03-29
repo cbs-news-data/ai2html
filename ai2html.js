@@ -45,7 +45,7 @@ function main() {
   // - Add an entry to CHANGELOG.md
   // - Run 'npm publish' to create a new GitHub release
   var scriptVersion = "0.116.0";
-  var axiosVersion = "0.2.0";
+  var axiosVersion = "0.2.2";
 
   // ================================================
   // ai2html and config settings
@@ -230,7 +230,7 @@ function main() {
         aifont: "NBInternationalPro-Bold",
         family:
           "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "500",
+        weight: "600",
         style: "",
       },
       {

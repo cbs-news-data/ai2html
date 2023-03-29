@@ -1,3 +1,7 @@
+### v0.2.2
+
+- Update NB International Pro bold weight
+
 ### v0.2.1
 
 - Update artboard names for generating fallbacks
