@@ -1,0 +1,77 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "ai2html-learning-hour",
+  "steps": [
+    {
+      "file": "ai2html.js",
+      "description": "These settings configure how the AI file will ultimately be exported into HTML. These have been updated to reflect Axios' defaults. Some new settings have been added, such as the `local_svelte_template`, for Axios specific settings.",
+      "line": 56
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This is where you set the default fonts that the script can successfully export. Project-specific custom fonts can be added in a separate `ai2html-config.json` file. See [documentation](https://github.com/axiosvisuals/ai2html#custom-fonts) for details.",
+      "line": 193
+    },
+    {
+      "file": "ai2html.js",
+      "description": "Because this is an NYT project, there's *a lot* of things in this file that are only relevant to the NYT set up. To make future updates easier, we've left the NYT-specific code in, but these can generally be safely ignored.",
+      "line": 247
+    },
+    {
+      "file": "ai2html.js",
+      "description": "Searching for `-social` led me to the `generateFallbacks` function, which is the function that controls which artboards are exported as images.",
+      "line": 5848
+    },
+    {
+      "file": "ai2html.js",
+      "description": "Searching for `generateFallbacks` led me to the `render()` function which is where the artboards are actually convered to HTML files.",
+      "line": 1312
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This tells Illustrator to create a new file at the specified folder with the right name.",
+      "line": 5805
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This checks to see if the artboard name contains the specified string, and if it does, exports the artboard as an image according to the settings.\n\nArtboards not listed here **won't** be exported as images.\n\n**Jacque's thought bubble:** Could we leverage this naming convention to be able to more dynamically create different size static images without needing to specify them here?",
+      "line": 5840
+    },
+    {
+      "file": "ai2html.js",
+      "description": "`generateOutputHtml` is where the HTML is built and exported into a file.",
+      "line": 5667
+    },
+    {
+      "file": "ai2html.js",
+      "description": "The `render()` function is where all the magic actually happens. For each usable artboard, it will process the artboard and convert it into HTML.",
+      "line": 1177
+    },
+    {
+      "file": "ai2html.js",
+      "description": "For Svelte projects, we need to adjust some of the output HTML.",
+      "line": 5679
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This is where the `slug.html` or `slug.svelte` file actually gets created.",
+      "line": 5791
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This creates the HTML page and reads all the settings for the project.",
+      "line": 5608
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This is where settings get converted into variables. Eg `hed: This is a hed` can be accessed in `template.html` with `{{ hed }}`.",
+      "line": 1605
+    },
+    {
+      "file": "ai2html.js",
+      "description": "This snippet taken from FTE's implementation lets you convert a text layer into a setting if the layer name starts with `#`. For example, `#hed` can be accessed as `{{ hed }}` in `template.html`.",
+      "line": 1995
+    }
+  ],
+  "ref": "main"
+}
