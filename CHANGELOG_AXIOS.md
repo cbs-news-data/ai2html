@@ -1,3 +1,7 @@
+### v0.3.0
+
+- If no project type is set, automatically generate both `.html` and `.svelte` outputs.
+
 ### v0.2.2
 
 - Update NB International Pro bold weight

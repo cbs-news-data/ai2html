@@ -45,7 +45,7 @@ function main() {
   // - Add an entry to CHANGELOG.md
   // - Run 'npm publish' to create a new GitHub release
   var scriptVersion = "0.116.0";
-  var axiosVersion = "0.2.2";
+  var axiosVersion = "0.2.0";
 
   // ================================================
   // ai2html and config settings
@@ -230,7 +230,7 @@ function main() {
         aifont: "NBInternationalPro-Bold",
         family:
           "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "600",
+        weight: "500",
         style: "",
       },
       {
@@ -1101,11 +1101,22 @@ function main() {
 
     // ai2svelte
     if (docSettings.project_type == "svelte") {
+      docSettings.html_output_path = "/" + toPascalCase(docName) + "/";
       docSettings.include_resizer_script = false;
+      docSettings.image_output_path = "./images/";
     }
-
     // render the document
     render(docSettings, textBlockData.code);
+
+    if (!docSettings.project_type) {
+      // Axios
+      // ai2svelte: Automatically generate both HTML and Svelte outputs if we didn't specify a project type
+      docSettings.project_type = "svelte";
+      docSettings.include_resizer_script = false;
+      docSettings.image_output_path = "./images/";
+
+      render(docSettings, textBlockData.code);
+    }
   } catch (e) {
     errors.push(formatError(e));
   }
@@ -1640,6 +1651,21 @@ function main() {
     var parts = path.split("/");
     var filename = parts.pop();
     return [parts.join("/"), filename];
+  }
+
+  // Convert string to pascal case
+  function toPascalCase(string) {
+    return string
+      .toLowerCase()
+      .replace(/\d+/g, "")
+      .replace(/[-_]+/g, " ")
+      .replace(/[^\w\s]/g, "")
+      .replace(/\s+(.)(\w*)/g, function ($1, $2, $3) {
+        return $2.toUpperCase() + $3;
+      })
+      .replace(/\w/, function (s) {
+        return s.toUpperCase();
+      });
   }
 
   // ======================================
@@ -5734,27 +5760,46 @@ function main() {
       "<style " +
       styleMeta +
       ">\r" +
+      "/* stylelint-disable */\r" +
       generatePageCss(containerId, settings) +
       content.css +
+      "\r/* stylelint-enable */\r" +
       "\r</style>\r";
 
     // JS
     js = content.js + responsiveJs;
 
     // Axios: Reorder to put JS last
-    textForFile =
-      "\r" +
-      commentBlock +
-      "\r" +
-      css +
-      "\r" +
-      html +
-      "\r" +
-      js +
-      "<!-- End ai2html" +
-      " - " +
-      getDateTimeStamp() +
-      " -->\r";
+    // ai2svelte
+    if (settings.project_type == "svelte") {
+      textForFile =
+        "\r" +
+        commentBlock +
+        "\r" +
+        js +
+        "\r" +
+        html +
+        "\r" +
+        css +
+        "<!-- End ai2html" +
+        " - " +
+        getDateTimeStamp() +
+        " -->\r";
+    } else {
+      textForFile =
+        "\r" +
+        commentBlock +
+        "\r" +
+        css +
+        "\r" +
+        html +
+        "\r" +
+        js +
+        "<!-- End ai2html" +
+        " - " +
+        getDateTimeStamp() +
+        " -->\r";
+    }
 
     textForFile = applyTemplate(textForFile, settings);
     htmlFileDestinationFolder = docPath + settings.html_output_path;
@@ -5771,7 +5816,7 @@ function main() {
     // write file
     if (settings.project_type == "svelte") {
       var previewFileDestination =
-        htmlFileDestinationFolder + pageName + ".svelte";
+        htmlFileDestinationFolder + toPascalCase(pageName) + ".svelte";
       outputSvelteComponent(textForFile, previewFileDestination, settings);
     } else {
       saveTextFile(htmlFileDestination, textForFile);

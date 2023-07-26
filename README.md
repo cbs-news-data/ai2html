@@ -22,6 +22,7 @@ Copy [`ai2html.js`](/ai2html.js) to the `Applications/[Adobe Illustrator]/Preset
 6. When the script runs, you should need a new directory called `/[slug]` in your project folder that contains:
 
 - `[slug].html` - your embed HTML
+- `[slugInPascalCase].svelte` - your Svelte component
 - `/images/` - Images directory that contains all the background images needed to render the graphic
 - `/fallbacks/` - Directory that contains the fallback images of the mobile large, tablet, social and instagram artboards.
 
@@ -29,14 +30,11 @@ Copy [`ai2html.js`](/ai2html.js) to the `Applications/[Adobe Illustrator]/Preset
 
 ### ai2svelte project
 
-If you want to create a graphic that will be used inside of a Svelte project, make these modifications to the steps above:
+Running the `ai2html` script will automatically generate a `.svelte` component for you. To add the component to the project, follow these instructions/tips:
 
-1. When updating the project slug, use title-case/pascal-case naming (eg. `WorldMap/WorldMap.ai`)
-2. We recommend **not** including the hed or dek of the chart in the artboards. Instead, you can set it in Svelte.
-3. In the `ai2html-settings` block, set `project_type: svelte`. You can also optionally set `generate_fallbacks: no` to stop the generation of fallback images.
-4. When you run the `ai2html` script, the output will have `[slug].svelte` instead of `[slug].html`
-5. Copy the `/[slug]` output directory to your components directory in your Svelte project and rename accordingly. Depending on your project structure, that might look like `/src/lib/components/`.
-6. Import the AI component and use in your project
+1. Copy the `/[slug]` output directory to your components directory in your Svelte project and rename accordingly. Depending on your project structure, that might look like `/src/lib/components/[slugInPascalCase]`.
+2. Optionally, delete the `[slug].html` file from your Svelte project.
+3. Import the AI component and use in your project
 
 ```svelte
 <script>
@@ -63,6 +61,12 @@ const config = {
   ],
 };
 ```
+
+**Tips:**
+
+- If you want to generate just the `svelte` output, set `project_type: svelte` in the settings
+- When updating the project slug, use title-case/pascal-case naming (eg. `WorldMap/WorldMap.ai`)
+- We recommend **not** including the hed or dek of the chart in the artboards. Instead, you can set it in Svelte.
 
 ## Artboard notes
 
