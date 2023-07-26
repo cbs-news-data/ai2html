@@ -45,7 +45,7 @@ function main() {
   // - Add an entry to CHANGELOG.md
   // - Run 'npm publish' to create a new GitHub release
   var scriptVersion = "0.116.0";
-  var axiosVersion = "0.2.0";
+  var axiosVersion = "0.2.1";
 
   // ================================================
   // ai2html and config settings
@@ -220,6 +220,13 @@ function main() {
         style: "",
       },
       {
+        aifont: "NBInternationalPro-LigIta",
+        family:
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+        weight: "300",
+        style: "italic",
+      },
+      {
         aifont: "NBInternationalPro-Reg",
         family:
           "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
@@ -227,11 +234,39 @@ function main() {
         style: "",
       },
       {
-        aifont: "NBInternationalPro-Bold",
+        aifont: "NBInternationalPro-Ita",
+        family:
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+        weight: "400",
+        style: "italic",
+      },
+      {
+        aifont: "NBInternationalPro-Medium",
         family:
           "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
         weight: "500",
         style: "",
+      },
+      {
+        aifont: "NBInternationalProMedium-Italic",
+        family:
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+        weight: "500",
+        style: "italic",
+      },
+      {
+        aifont: "NBInternationalPro-Bold",
+        family:
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+        weight: "600",
+        style: "",
+      },
+      {
+        aifont: "NBInternationalPro-BolIta",
+        family:
+          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+        weight: "600",
+        style: "italic",
       },
       {
         aifont: "NBInternationalPro-Mono",
