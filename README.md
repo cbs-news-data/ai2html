@@ -113,11 +113,13 @@ If you're loading in fonts from Adobe Fonts/Typekit/Google Fonts, you must also:
    2. Find the custom fonts needed for the project and mark them as "active". This should sync them to your local computer using Creative Cloud.
    3. Add to or create a new Web Project
       - **Note:** Only include the fonts/font weights you'll actually be using in the Web Project. Every new font/weight/style increases the overall page load time. This is different from the fonts you have active on your local computer.
-2. In your Svelte project, add the embed code provided by Adobe Fonts
+2. At the bottom of the `<head>` section of `template.html`, add the embed code provided by Adobe Fonts/Google fonts/etc. Add it **before** you run the `ai2html` script and it will be included automatically.
 
 ```
 <link rel="stylesheet" href="https://use.typekit.net/vlt1eba.css">
 ```
+
+3. If adding to a Svelte project, add the embed code to `style.scss`.
 
 ## Contributing to this project
 
