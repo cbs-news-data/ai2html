@@ -24,8 +24,9 @@
      ```html
      <link rel="stylesheet" href="https://use.typekit.net/rdn8fde.css">
      ```
-6. Push your repo to GitHub and wait for the page to deploy.
-It will be live at this URL: `https://cbs-news-data.github.io/<REPO NAME HERE>`.
+6. Push your repo to GitHub
+7. Visit the repo on GitHub, navigate to Settings > Pages, and select the <b>main</b> branch before saving.
+8. Wait for your repo to deploy and it will be live at this URL: `https://cbs-news-data.github.io/<REPO NAME HERE>`.
 
 #### Embedding in Prism
 
