@@ -2,22 +2,30 @@
 
 > ai2html is an open-source script for Adobe Illustrator that converts your Illustrator documents into html and css.
 
-Here are [examples of how we’ve used the script](examples/nyt.md) at The New York Times and [examples of how others](examples/others.md) have used it. Share your ai2html projects on Twitter, Delicious, etc. using #ai2html.
 
-For documentation and examples on [how to use ai2html](http://ai2html.org), please visit [ai2html.org](http://ai2html.org).
+#### Installation
 
-## Contributing to this project
+1. Clone this repo to your machine.
+2. Move the `ai2html.js` file into the Illustrator folder where your scripts are located. Default path: `/Applications/Adobe Illustrator CC 20XX/Presets/en_US/Scripts`
+3. Run the script in Illustrator: `File > Script > ai2html`
 
-The Github repository for this site is available at [newsdev/ai2html](https://github.com/newsdev/ai2html).
+#### Walkthrough
 
-## Thanks
+1. Create your graphic/visualization in the `ai2html-template.ai` file. 
+2. Run the script in Illustrator: `File > Scripts > ai2html`
+3. This should export to a folder called "ai2html-output" with all of your artboards and one HTML file.
+   - Rename this folder with a custom slug for your project.
+   - Rename the HTML file to "index.html" for GitHub Pages recognition.
+   - Add fonts by pasting this line at the top of the HTML file:
+     ```html
+     <link rel="stylesheet" href="https://use.typekit.net/rdn8fde.css">
+     ```
+4. Push your repo to GitHub and wait for the page to deploy.
+It will be live at this URL: `https://cbs-news-data.github.io/<REPO NAME HERE>`.
 
-Many thanks to [Gregor Aisch](https://twitter.com/driven_by_data), [Derek Watkins](https://twitter.com/dwtkns), [Josh Katz](https://twitter.com/jshkatz), [K.K. Rebecca Lai](https://twitter.com/kkrebeccalai), [Tom Giratikanon](https://twitter.com/giratikanon), [Matt Ericson](https://twitter.com/mericson), [Jeremy Ashkenas](https://twitter.com/jashkenas) and [Alan McLean](https://twitter.com/alanmclean) for their incredible contributions to this project, as well as to my colleagues in The New York Times [Graphics Department](https://twitter.com/nytgraphics) for their patient guidance.
+#### Embedding in Prism
 
-If you’re learning to write Javascript for Adobe Illustrator, [John Wundes](http://www.wundes.com/JS4AI/), has many wonderful scripts. [explore.js](http://www.wundes.com/JS4AI/explore.js) is particularly helpful for understanding what attributes are attached to Illustrator objects.
+Use this iframe below, changing the URL to the correct GitHub page name with your project:
 
----
-
-<p style="font-size:.8em;opacity:0.5;">Created by <a href="https://twitter.com/archietse">Archie Tse</a> / <a href="https://github.com/newsdev">The New York Times</a></p>
-
-<p style="font-size:.8em;opacity:0.7;">Copyright (c) 2011-2021 The New York Times Company</p>
+```markdown
+<iframe src="https://cbs-news-data.github.io/<REPO NAME HERE>" width=100% height=500px></iframe>
