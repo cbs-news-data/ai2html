@@ -11,16 +11,20 @@
 
 #### Walkthrough
 
-1. Create your graphic/visualization in the `ai2html-template.ai` file. 
-2. Run the script in Illustrator: `File > Scripts > ai2html`
-3. This should export to a folder called "ai2html-output" with all of your artboards and one HTML file.
+1. Create your graphic/visualization in the `ai2html-template.ai` file.
+2. Make sure you fill out the `image_alt_text` field in the <b>ai2html-settings</b> block to the left of your artboards before running the script.
+
+![Screenshot 2024-03-01 at 12 44 49 PM](https://github.com/cbs-news-data/ai2html/assets/25045397/ab06408c-44ff-4949-8abd-5cb08eca97a9)
+
+4. Run the script in Illustrator: `File > Scripts > ai2html`
+5. This should export to a folder called "ai2html-output" with all of your artboards and one HTML file.
    - Rename this folder with a custom slug for your project.
    - Rename the HTML file to "index.html" for GitHub Pages recognition.
    - Add fonts by pasting this line at the top of the HTML file:
      ```html
      <link rel="stylesheet" href="https://use.typekit.net/rdn8fde.css">
      ```
-4. Push your repo to GitHub and wait for the page to deploy.
+6. Push your repo to GitHub and wait for the page to deploy.
 It will be live at this URL: `https://cbs-news-data.github.io/<REPO NAME HERE>`.
 
 #### Embedding in Prism
