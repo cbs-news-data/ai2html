@@ -18,7 +18,7 @@
 
 4. Run the script in Illustrator: `File > Scripts > ai2html`
 5. This should export to a folder called "ai2html-output" with all of your artboards and one HTML file.
-   - Rename this folder with a custom slug for your project.
+   - Place the contents of this folder into a GitHub repo
    - Rename the HTML file to "index.html" for GitHub Pages recognition.
    - Add fonts by pasting this line at the top of the HTML file:
      ```html
