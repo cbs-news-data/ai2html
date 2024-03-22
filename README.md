@@ -33,4 +33,11 @@
 Use this iframe below, changing the URL to the correct GitHub page name with your project:
 
 ```markdown
-<iframe src="https://cbs-news-data.github.io/<REPO NAME HERE>" width=100% height=500px></iframe>
+/* Media query for mobile devices -  */
+        @media only screen and (max-width: 768px) {
+            .embed__resizer {
+                padding-top: 825px !important; /* Tweak this depending on the size of your mobile artboard */
+            }
+        }
+<iframe src="https://cbs-news-data.github.io/<REPO NAME HERE>" width="100%" height="600px"></iframe> /* Also tweak height here depending on size of desktop artboard */
+
