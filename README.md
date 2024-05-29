@@ -23,6 +23,7 @@
    - Add fonts by pasting this line at the top of the HTML file:
      ```html
      <link rel="stylesheet" href="https://use.typekit.net/rdn8fde.css">
+     <link rel="stylesheet" href="https://www.cbsnews.com/fly/bundles/cbsnewscontent/fonts/PublicoHeadline-Black/PublicoHeadline-Black.woff2">
      ```
 6. Push your repo to GitHub
 7. Visit the repo on GitHub, navigate to Settings > Pages, and select the <b>main</b> branch before saving.
