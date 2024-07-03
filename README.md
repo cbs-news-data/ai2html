@@ -37,15 +37,15 @@
 8. Wait for your repo to deploy and it will be live at this URL: `https://cbs-news-data.github.io/<REPO NAME HERE>`.
 
 #### Embedding in Prism
+To make sure your embeds are responsive, include this script in your file:
+```
+<script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
 
-Use this iframe below, changing the URL to the correct GitHub page name with your project:
-
-```markdown
-/* Media query for mobile devices -  */
-        @media only screen and (max-width: 768px) {
-            .embed__resizer {
-                padding-top: 825px !important; /* Tweak this depending on the size of your mobile artboard */
-            }
-        }
-<iframe src="https://cbs-news-data.github.io/<REPO NAME HERE>" width="100%" height="600px"></iframe> /* Also tweak height here depending on size of desktop artboard */
-
+			document.addEventListener("DOMContentLoaded", function() {
+            var pymChild = new pym.Child();
+        });
+```
+Copy this div into Prism, changing the URL to your GitHub pages URL:
+```
+<div id="example"></div> <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script> <script> var pymParent = new pym.Parent('example', 'https://cbs-news-data.github.io/fireworks-laws_ai2html/', {}); </script>
+```
