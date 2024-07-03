@@ -20,10 +20,17 @@
 5. This should export to a folder called "ai2html-output" with all of your artboards and one HTML file.
    - Place the contents of this folder into a GitHub repo
    - Rename the HTML file to "index.html" for GitHub Pages recognition.
-   - Add fonts by pasting this line at the top of the HTML file:
+   - Add Proxima Nova font by pasting this line at the top of the HTML file:
      ```html
      <link rel="stylesheet" href="https://use.typekit.net/rdn8fde.css">
-     <link rel="stylesheet" href="https://www.cbsnews.com/fly/bundles/cbsnewscontent/fonts/PublicoHeadline-Black/PublicoHeadline-Black.woff2">
+     ```
+   - Add Publico Headline font by copying the font folder into your project repo and adding this code to the HTML file
+     ```
+     @font-face {
+      font-family: 'Publico Headline';
+     src: url('fonts/PublicoHeadline-Black.woff2') format('woff2'),
+           url('fonts/PublicoHeadline-Black.woff') format('woff');
+     }
      ```
 6. Push your repo to GitHub
 7. Visit the repo on GitHub, navigate to Settings > Pages, and select the <b>main</b> branch before saving.
