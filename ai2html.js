@@ -193,86 +193,21 @@ function main() {
       // Axios
       // Serif
       {
-        aifont: "AtizaText-Regular",
-        family: "atizatext-regular,georgia,serif",
-        weight: "",
-        style: "",
-      },
-      {
-        aifont: "AtizaText-RegularItalic",
-        family: "atizatext-regularitalic,georgia,serif",
-        weight: "",
-        style: "italic",
-      },
-      {
-        aifont: "AtizaText-Bold",
-        family: "atizatext-bold,georgia,serif",
-        weight: "bold",
-        style: "",
-      },
-
-      // Sans
-      {
-        aifont: "NBInternationalPro-Lig",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "300",
-        style: "",
-      },
-      {
-        aifont: "NBInternationalPro-LigIta",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "300",
-        style: "italic",
-      },
-      {
-        aifont: "NBInternationalPro-Reg",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
+        aifont: "ProximaNova-Regular",
+        family: "'proxima-nova', sans-serif",
         weight: "400",
         style: "",
       },
       {
-        aifont: "NBInternationalPro-Ita",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "400",
-        style: "italic",
-      },
-      {
-        aifont: "NBInternationalPro-Medium",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "500",
+        aifont: "ProximaNova-Bold",
+        family: "'proxima-nova', sans-serif",
+        weight: "700",
         style: "",
       },
       {
-        aifont: "NBInternationalProMedium-Italic",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "500",
-        style: "italic",
-      },
-      {
-        aifont: "NBInternationalPro-Bold",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "600",
-        style: "",
-      },
-      {
-        aifont: "NBInternationalPro-BolIta",
-        family:
-          "'NB International Pro','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "600",
-        style: "italic",
-      },
-      {
-        aifont: "NBInternationalPro-Mono",
-        family:
-          "'NB International Pro Mono','Helvetica','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell','Fira Sans','Droid Sans',sans-serif",
-        weight: "",
+        aifont: "ProximaNova-Thin",
+        family: "'proxima-nova', sans-serif",
+        weight: "300",
         style: "",
       },
     ],
@@ -5422,11 +5357,11 @@ function main() {
       css += t3 + "max-width:" + settings.max_width + "px;";
       css += blockEnd;
     }
-    if (isTrue(settings.center_html_output)) {
-      css += blockStart + ",\r" + blockStart + "." + nameSpace + "artboard {";
-      css += t3 + "margin:0 auto;";
-      css += blockEnd;
-    }
+    // if (isTrue(settings.center_html_output)) {
+    //   css += blockStart + ",\r" + blockStart + "." + nameSpace + "artboard {";
+    //   css += t3 + "margin:0 auto;";
+    //   css += blockEnd;
+    // }
     if (settings.clickable_link !== "") {
       css += blockStart + " ." + nameSpace + "ai2htmlLink {";
       css += t3 + "display: block;";
