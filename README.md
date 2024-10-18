@@ -28,6 +28,13 @@ Copy [`ai2html.js`](/ai2html.js) to the `Applications/[Adobe Illustrator]/Preset
 
 7. Upload the output `/[slug]` directory to the graphics server
 
+## Embedding in Prism
+Swap out both URLs with your GitHub pages URL and embed into Prism!
+```
+<div id="chart"></div> <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js" ></script> <script> var pymParent = new pym.Parent( "chart", "https://cbs-news-data.github.io/teacher-shortages_ai2html/", {} ); </script> <amp-iframe width="100" height="100" layout="responsive" sandbox="allow-scripts allow-same-origin" resizable src="https://cbs-news-data.github.io/teacher-shortages_ai2html/"> <div overflow tabindex="0" role="button" aria-label="View more"> </div> </amp-iframe>
+
+```
+
 ### ai2svelte project
 
 Running the `ai2html` script will automatically generate a `.svelte` component for you. To add the component to the project, follow these instructions/tips:
@@ -120,6 +127,7 @@ If you're loading in fonts from Adobe Fonts/Typekit/Google Fonts, you must also:
 ```
 
 3. If adding to a Svelte project, add the embed code to `style.scss`.
+
 
 ## Contributing to this project
 
